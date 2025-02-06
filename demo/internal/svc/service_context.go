@@ -1,21 +1,18 @@
 package svc
 
 import (
-	{{.configImport}}
+	"demo/internal/config"
 	"plugins/utils/verfy"
 )
 
 type ServiceContext struct {
-	Config {{.config}}
+	Config config.Config
 	Verify *verfy.Verify
-	{{.middleware}}
 }
 
-func NewServiceContext(c {{.config}}) *ServiceContext {
+func NewServiceContext(c config.Config) *ServiceContext {
 	return &ServiceContext{
 		Config: c,
 		Verify: verfy.NewVerify(),
-		{{.middlewareAssignment}}
-
 	}
 }
