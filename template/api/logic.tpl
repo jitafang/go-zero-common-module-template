@@ -2,6 +2,7 @@ package {{.pkgName}}
 
 import (
 	{{.imports}}
+    "plugins/entity/response"
 )
 
 type {{.logic}} struct {
@@ -19,8 +20,8 @@ func New{{.logic}}(ctx context.Context, svcCtx *svc.ServiceContext) *{{.logic}} 
 	}
 }
 
-func (l *{{.logic}}) {{.function}}({{.request}}) {{.responseType}} {
+func (l *{{.logic}}) {{.function}}({{.request}}) (resp *response.LogicResponse, err error) {
 	// todo: add your logic here and delete this line
 
-	{{.returnString}}
+    return response.LogicResult(nil), nil
 }

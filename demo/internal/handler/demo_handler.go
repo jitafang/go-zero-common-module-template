@@ -6,15 +6,10 @@ import (
 	"demo/internal/types"
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
+	"plugins/entity/response"
 )
 
 func DemoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
-	type response struct {
-		Code    int         `json:"code"`
-		Message string      `json:"message"`
-		Data    interface{} `json:"data"`
-	}
-
 	return func(w http.ResponseWriter, r *http.Request) {
 		var req types.Request
 		if err := httpx.Parse(r, &req); err != nil {
@@ -23,15 +18,15 @@ func DemoHandler(svcCtx *svc.ServiceContext) http.HandlerFunc {
 		}
 		err := svcCtx.Verify.ValidateAndHandleError(req)
 		if err != nil {
-			httpx.OkJsonCtx(r.Context(), w, &response{Code: -1, Message: err.Error(), Data: nil})
+			httpx.OkJsonCtx(r.Context(), w, response.HandlerError(err.Error()))
 			return
 		}
 		l := logic.NewDemoLogic(r.Context(), svcCtx)
 		resp, err := l.Demo(&req)
 		if err != nil {
-			httpx.OkJsonCtx(r.Context(), w, &response{Code: -1, Message: err.Error(), Data: nil})
+			httpx.OkJsonCtx(r.Context(), w, response.HandlerError(err.Error()))
 		} else {
-			httpx.OkJsonCtx(r.Context(), w, &response{Code: 0, Message: "success", Data: resp.Data})
+			httpx.OkJsonCtx(r.Context(), w, response.HandlerSuccess(resp.Data))
 		}
 	}
 }
