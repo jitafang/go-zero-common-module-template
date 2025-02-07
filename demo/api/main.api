@@ -9,3 +9,14 @@ service demo-api {
 	get /from/:name (Request)
 }
 
+@server (
+	prefix:     /test
+	group:      test
+	jwt:        JWT
+	middleware: TestMiddleware
+)
+service demo-api {
+	@handler GetHandler
+	get /
+}
+

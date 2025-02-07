@@ -6,6 +6,7 @@ package handler
 import (
 	"net/http"
 
+	test "demo/internal/handler/test"
 	"demo/internal/svc"
 
 	"github.com/zeromicro/go-zero/rest"
@@ -20,5 +21,20 @@ func RegisterHandlers(server *rest.Server, serverCtx *svc.ServiceContext) {
 				Handler: DemoHandler(serverCtx),
 			},
 		},
+	)
+
+	server.AddRoutes(
+		rest.WithMiddlewares(
+			[]rest.Middleware{serverCtx.TestMiddleware},
+			[]rest.Route{
+				{
+					Method:  http.MethodGet,
+					Path:    "/",
+					Handler: test.GetHandler(serverCtx),
+				},
+			}...,
+		),
+		rest.WithJwt(serverCtx.Config.JWT.AccessSecret),
+		rest.WithPrefix("/test"),
 	)
 }
