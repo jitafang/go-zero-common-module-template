@@ -5,7 +5,6 @@ import (
 	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema"
 	"entgo.io/ent/schema/field"
-	"time"
 )
 
 // User holds the schema definition for the User entity.
@@ -17,16 +16,21 @@ type User struct {
 func (User) Annotations() []schema.Annotation {
 	return []schema.Annotation{
 		// 自定义表名
-		entsql.Annotation{Table: "Users"},
+		entsql.Annotation{Table: "users"},
+	}
+}
+
+func (User) Mixin() []ent.Mixin {
+	return []ent.Mixin{
+		TimeMixin{},
+		VersionMixin{},
 	}
 }
 
 // Fields of the User.
 func (User) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name"),
-		field.Time("created_at").
-			Default(time.Now),
+		field.String("name").Comment("名称").Annotations(entsql.WithComments(true)),
 	}
 }
 
