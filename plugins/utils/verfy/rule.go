@@ -19,10 +19,10 @@ func tel(tel string) bool {
 	return re.MatchString(tel)
 }
 
-// password1 以字母开头，包含字母、数字、下划线，长度在6到18之间
-func password1(password string) bool {
-	// 正则表达式，规则：以字母开头，包含字母、数字、下划线，长度在6到18之间
-	regex := `^[a-zA-Z][a-zA-Z0-9_]{5,17}$`
+// password 包含大小写字母、数字，长度在6到30之间
+func password(password string) bool {
+	// 正则表达式，规则：包含大小写字母、数字，长度在6到30之间
+	regex := `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,30}$`
 	re := regexp.MustCompile(regex)
 
 	// 使用正则表达式进行匹配

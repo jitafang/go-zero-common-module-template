@@ -25,8 +25,8 @@ func registerValidation(validate *validator.Validate) {
 	_ = validate.RegisterValidation("tel", func(fl validator.FieldLevel) bool {
 		return tel(fl.Field().String())
 	})
-	_ = validate.RegisterValidation("password1", func(fl validator.FieldLevel) bool {
-		return password1(fl.Field().String())
+	_ = validate.RegisterValidation("password", func(fl validator.FieldLevel) bool {
+		return password(fl.Field().String())
 	})
 }
 
@@ -40,8 +40,8 @@ func (v *Verify) ValidateAndHandleError(req interface{}) error {
 					return fmt.Errorf("%s 字段不能包含只有空格", e.Field())
 				case "tel":
 					return fmt.Errorf("手机号不合规")
-				case "password1":
-					return fmt.Errorf("密码要以字母开头，包含字母、数字、下划线，长度在6到18之间")
+				case "password":
+					return fmt.Errorf("密码要包含大小写字母、数字，长度在6到30之间")
 				default:
 					return errors.New(e.Error()) // 默认错误信息
 				}
