@@ -21,10 +21,17 @@ func tel(tel string) bool {
 
 // password 包含大小写字母、数字，长度在6到30之间
 func password(password string) bool {
-	// 正则表达式，规则：包含大小写字母、数字，长度在6到30之间
-	regex := `^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,30}$`
-	re := regexp.MustCompile(regex)
+	// 长度 6-30
+	lengthRegex := regexp.MustCompile(`^.{6,30}$`)
+	// 必须包含大写字母
+	upperRegex := regexp.MustCompile(`[A-Z]`)
+	// 必须包含小写字母
+	lowerRegex := regexp.MustCompile(`[a-z]`)
+	// 必须包含数字
+	digitRegex := regexp.MustCompile(`\d`)
 
-	// 使用正则表达式进行匹配
-	return re.MatchString(password)
+	return lengthRegex.MatchString(password) &&
+		upperRegex.MatchString(password) &&
+		lowerRegex.MatchString(password) &&
+		digitRegex.MatchString(password)
 }
