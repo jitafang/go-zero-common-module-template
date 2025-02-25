@@ -2,9 +2,9 @@ package schema
 
 import (
 	"entgo.io/ent"
-	"entgo.io/ent/dialect/entsql"
 	"entgo.io/ent/schema/field"
 	"entgo.io/ent/schema/mixin"
+	"plugins/enums/enum_status"
 	"time"
 )
 
@@ -17,13 +17,23 @@ func (TimeMixin) Fields() []ent.Field {
 		field.Time("created_at").
 			Immutable().
 			Default(time.Now).
-			Comment("创建时间").
-			Annotations(entsql.WithComments(true)),
+			Comment("创建时间"),
 		field.Time("updated_at").
 			Default(time.Now).
 			UpdateDefault(time.Now).
-			Comment("删除时间").
-			Annotations(entsql.WithComments(true)),
+			Comment("删除时间"),
+	}
+}
+
+type StatusMixin struct {
+	mixin.Schema
+}
+
+func (StatusMixin) Fields() []ent.Field {
+	return []ent.Field{
+		field.Int32("status").
+			GoType(enum_status.Status(0)).
+			Comment("状态"),
 	}
 }
 
@@ -35,7 +45,6 @@ func (VersionMixin) Fields() []ent.Field {
 	return []ent.Field{
 		field.Int32("version").
 			Default(0).
-			Comment("版本").
-			Annotations(entsql.WithComments(true)),
+			Comment("版本"),
 	}
 }

@@ -23,6 +23,7 @@ func (User) Annotations() []schema.Annotation {
 func (User) Mixin() []ent.Mixin {
 	return []ent.Mixin{
 		TimeMixin{},
+		StatusMixin{},
 		VersionMixin{},
 	}
 }
@@ -30,7 +31,7 @@ func (User) Mixin() []ent.Mixin {
 // Fields of the User.
 func (User) Fields() []ent.Field {
 	return []ent.Field{
-		field.String("name").Comment("名称").Annotations(entsql.WithComments(true)),
+		field.String("name").Comment("名称"),
 	}
 }
 
